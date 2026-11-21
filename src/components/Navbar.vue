@@ -16,7 +16,7 @@
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="#">Show Product</router-link>
+            <router-link class="nav-link" to="/shop">Show Product</router-link>
           </li>
            <li class="nav-item">
             <router-link class="nav-link" to="/customer">Customer</router-link>
@@ -29,6 +29,12 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/asset">Asset</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/product">Product</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/category">Category</router-link>
           </li>
            <li class="nav-item">
             <router-link class="nav-link" to="/about">About</router-link>
