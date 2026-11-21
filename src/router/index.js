@@ -92,6 +92,12 @@ const routes = [
     component: () => import('../views/Category.vue')
   },
   {
+    path: '/leave',
+    name: 'leave',
+    meta: { requiresAuth: true },
+    component: () => import('../views/Leave.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/Login.vue')
