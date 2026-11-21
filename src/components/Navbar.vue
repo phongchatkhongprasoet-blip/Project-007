@@ -11,7 +11,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto text-nowrap">
           <li class="nav-item">
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
@@ -19,6 +19,9 @@
             <router-link class="nav-link" to="/shop">Show Product</router-link>
           </li>
            <li class="nav-item" v-if="user">
+            <router-link class="nav-link" to="/leave">ระบบลางาน</router-link>
+          </li>
+          <li class="nav-item" v-if="user">
             <router-link class="nav-link" to="/customer">Customer</router-link>
           </li>
           <li class="nav-item" v-if="user">
@@ -45,7 +48,7 @@
         <div class="d-flex align-items-center ms-lg-3">
           <router-link v-if="!user" to="/login" class="btn btn-outline-light btn-sm">Login</router-link>
           <template v-else>
-            <span class="text-white me-2">สวัสดี, {{ user.firstName }} {{ user.lastName }}</span>
+            <span class="text-white me-2 text-nowrap">สวัสดี, {{ user.firstName }} {{ user.lastName }}</span>
             <button class="btn btn-danger btn-sm" @click="logout">Logout</button>
           </template>
         </div>
