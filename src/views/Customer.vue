@@ -3,7 +3,7 @@
     <!-- หัวข้อหน้า -->
     <h2 class="mb-3">รายชื่อลูกค้า</h2>
     <div class="text-end mb-3">
-      <a href="/add_customer" class="btn btn-primary">Add+</a>
+      <router-link to="/add_customer" class="btn btn-primary">Add+</router-link>
     </div>
     <!-- ตารางแสดงข้อมูลลูกค้า -->
     <table class="table table-bordered table-striped">
@@ -15,6 +15,7 @@
           <th>นามสกุล</th>        <!-- lastName -->
           <th>เบอร์โทร</th>       <!-- phone -->
           <th>ชื่อผู้ใช้</th>      <!-- username -->
+          <th>จัดการ</th>         <!-- ปุ่มลบ -->
         </tr>
       </thead>
 
@@ -27,9 +28,18 @@
           <td>{{ item.lastName }}</td>    <!-- นามสกุล -->
           <td>{{ item.phone }}</td>       <!-- เบอร์โทร -->
           <td>{{ item.username }}</td>    <!-- ชื่อผู้ใช้ -->
+          <td class="text-center">
+            <!-- ปุ่มลบข้อมูล -->
+            <button class="btn btn-danger btn-sm" @click="deleteCustomer(item.customer_id)">ลบ</button>
+          </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- Message: แสดงผลการลบข้อมูล -->
+    <div v-if="message" class="alert alert-info">
+      {{ message }}
+    </div>
 
     <!-- Loading: แสดงระหว่างรอข้อมูล -->
     <div v-if="loading" class="text-center">
@@ -57,6 +67,7 @@ export default {
     const customers = ref([]); // เก็บข้อมูลลูกค้า (array)
     const loading = ref(true); // สถานะโหลดข้อมูล
     const error = ref(null);   // เก็บ error
+    const message = ref("");   // เก็บข้อความผลการลบ
 
     // -----------------------------
     // ฟังก์ชันดึงข้อมูลจาก API
@@ -64,7 +75,7 @@ export default {
     const fetchdata = async () => {
       try {
         // เรียก API (PHP)
-        const response = await fetch("http://localhost/week3_68701996_ict12367/php_api/show_customer.php");
+        const response = await fetch("http://localhost/68707650/php_api/show_customer.php");
 
         // ตรวจสอบว่าการเรียกสำเร็จหรือไม่
         if (!response.ok) {
@@ -85,6 +96,36 @@ export default {
     };
 
     // -----------------------------
+    // ฟังก์ชันลบข้อมูลลูกค้า
+    // -----------------------------
+    const deleteCustomer = async (id) => {
+      // ถามยืนยันก่อนลบ
+      if (!confirm("ต้องการลบข้อมูลลูกค้ารหัส " + id + " ใช่หรือไม่?")) {
+        return;
+      }
+
+      try {
+        // เรียก API (PHP) ส่งรหัสไปลบ
+        const response = await fetch("http://localhost/68707650/php_api/delete_customer.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ customer_id: id })
+        });
+
+        const data = await response.json();
+        message.value = data.message;
+
+        // ถ้าลบสำเร็จ ให้โหลดข้อมูลใหม่
+        if (data.success) {
+          fetchdata();
+        }
+
+      } catch (err) {
+        message.value = "เกิดข้อผิดพลาด: " + err.message;
+      }
+    };
+
+    // -----------------------------
     // lifecycle: ทำงานเมื่อ component โหลดเสร็จ
     // -----------------------------
     onMounted(() => {
@@ -97,7 +138,9 @@ export default {
     return {
       customers,
       loading,
-      error
+      error,
+      message,
+      deleteCustomer
     };
   }
 };
