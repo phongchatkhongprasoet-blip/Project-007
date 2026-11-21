@@ -1,7 +1,7 @@
 <?php
 // ฟังก์ชันอัปโหลดรูปภาพอุปกรณ์ ไปเก็บที่โฟลเดอร์ php_api/images/
 // คืนค่า: ชื่อไฟล์ใหม่ (string) / null ถ้าไม่ได้เลือกรูป / โยน Exception ถ้าไฟล์ไม่ถูกต้อง
-function uploadImage($field = 'image')
+function uploadImage($field = 'image', $prefix = 'asset')
 {
     if (!isset($_FILES[$field]) || $_FILES[$field]['error'] === UPLOAD_ERR_NO_FILE) {
         return null; // ไม่ได้เลือกรูป
@@ -26,7 +26,7 @@ function uploadImage($field = 'image')
     if (!is_dir($dir)) {
         mkdir($dir, 0777, true);
     }
-    $newName = 'asset_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
+    $newName = $prefix . '_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
     move_uploaded_file($_FILES[$field]['tmp_name'], $dir . $newName);
 
     return $newName;
