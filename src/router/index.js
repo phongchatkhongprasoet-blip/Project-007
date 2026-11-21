@@ -49,6 +49,21 @@ const routes = [
     path: '/edit_contact/:id',
     name: 'edit_contact',
     component: () => import('../views/Edit_Contact.vue')
+  },
+  {
+    path: '/asset',
+    name: 'asset',
+    component: () => import('../views/Asset.vue')
+  },
+  {
+    path: '/add_asset',
+    name: 'add_asset',
+    component: () => import('../views/Add_Asset.vue')
+  },
+  {
+    path: '/edit_asset/:id',
+    name: 'edit_asset',
+    component: () => import('../views/Edit_Asset.vue')
   }
 ]
 
